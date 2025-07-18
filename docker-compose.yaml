@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  backend:
+    build: .
+    container_name: flapkap-backend
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: sh -c "npm start"
+
+  db:
+    image: postgres:15
+    container_name: flapkap-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: flapkap
+    volumes:
+      - flapkap_db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  adminer:
+    image: adminer
+    container_name: flapkap-adminer
+    restart: always
+    ports:
+      - "8080:8080"
+
+  test:
+    build: .
+    depends_on:
+      - db
+    env_file:
+      - .env
+    command: sh -c "npm test"
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+volumes:
+  flapkap_db_data:

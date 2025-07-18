@@ -1,0 +1,33 @@
+{
+  "name": "flapkap-task",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omaremam/flapkap-task.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/omaremam/flapkap-task/issues"
+  },
+  "homepage": "https://github.com/omaremam/flapkap-task#readme",
+  "description": "",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "sequelize-cli": "^6.6.3",
+    "supertest": "^7.0.3"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "express": "^5.1.0",
+    "pg": "^8.16.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.7"
+  }
+}
