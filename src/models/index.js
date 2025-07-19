@@ -1,4 +1,6 @@
 const { Sequelize } = require('sequelize');
+const initUser = require('./user');
+const initProduct = require('./product');
 
 const sequelize = new Sequelize(
   process.env.DB_NAME,
@@ -12,8 +14,8 @@ const sequelize = new Sequelize(
   }
 );
 
-const User = require('./user')(sequelize);
-const Product = require('./product')(sequelize);
+const User = initUser(sequelize);
+const Product = initProduct(sequelize);
 
 User.hasMany(Product, { foreignKey: 'sellerId', as: 'products' });
 Product.belongsTo(User, { foreignKey: 'sellerId', as: 'seller' });

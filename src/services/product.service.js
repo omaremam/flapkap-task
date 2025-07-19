@@ -1,4 +1,4 @@
-const { Product } = require('../models');
+const { Product } = require("../models");
 
 class ProductService {
   static async createProduct(data) {
@@ -14,15 +14,25 @@ class ProductService {
   }
 
   static async updateProduct(id, data) {
-    const product = await Product.findByPk(id);
-    if (!product) throw new Error('Product not found');
+    const product = await Product.findOne({
+      where: {
+        id,
+        sellerId: data.sellerId,
+      },
+    });
+    if (!product) throw new Error("Product not found");
     await product.update(data);
     return product;
   }
 
-  static async deleteProduct(id) {
-    const product = await Product.findByPk(id);
-    if (!product) throw new Error('Product not found');
+  static async deleteProduct(id, sellerId) {
+    const product = await Product.findOne({
+      where: {
+        id,
+        sellerId,
+      },
+    });
+    if (!product) throw new Error("Product not found");
     await product.destroy();
   }
 }
