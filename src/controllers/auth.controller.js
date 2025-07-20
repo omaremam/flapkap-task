@@ -4,7 +4,7 @@ const { User } = require('../models');
 const bcrypt = require('bcryptjs');
 
 const AuthController = {
-  async register(req, res) {
+  async register(req, res, next) {
     try {
       const { username, password, role } = req.body;
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -15,17 +15,23 @@ const AuthController = {
       });
       res.status(201).json({ id: user.id, username: user.username, role: user.role });
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      if (error.name === 'ClientError') {
+        return res.status(400).json({ error: error.message });
+      }
+      next(error);
     }
   },
 
-  async login(req, res) {
+  async login(req, res, next) {
     try {
       const { username, password } = req.body;
       const { token, user } = await AuthService.login(username, password);
       res.json({ token, user });
     } catch (error) {
-      res.status(401).json({ error: error.message });
+      if (error.name === 'ClientError') {
+        return res.status(400).json({ error: error.message });
+      }
+      next(error);
     }
   },
 };

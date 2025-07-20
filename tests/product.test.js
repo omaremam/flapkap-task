@@ -14,9 +14,10 @@ app.use('/api/auth', authRoutes);
 let sellerToken;
 let seller;
 let createdProduct;
+let testData = []; // Track test data for cleanup
 
 beforeAll(async () => {
-  await sequelize.sync({ force: true });
+  await sequelize.sync();
   // Create a seller user and get a token
   const password = await bcrypt.hash('testpass', 10);
   seller = await User.create({
@@ -25,10 +26,19 @@ beforeAll(async () => {
     role: 'SELLER',
     deposit: 0
   });
+  testData.push({ type: 'user', id: seller.id });
   sellerToken = jwt.sign({ id: seller.id, role: seller.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
 });
 
 afterAll(async () => {
+  // Clean up only test data
+  for (const item of testData) {
+    if (item.type === 'user') {
+      await User.destroy({ where: { id: item.id } });
+    } else if (item.type === 'product') {
+      await Product.destroy({ where: { id: item.id } });
+    }
+  }
   await sequelize.close();
 });
 
@@ -47,6 +57,7 @@ describe('Product API', () => {
     expect(res.body).toHaveProperty('id');
     expect(res.body).toHaveProperty('productName', productData.productName);
     createdProduct = res.body;
+    testData.push({ type: 'product', id: createdProduct.id });
   });
 
   it('should get all products', async () => {
