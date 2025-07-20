@@ -2,7 +2,8 @@
 
 A RESTful API for a vending machine system built with Node.js, Express, Sequelize, and PostgreSQL. The system supports user authentication, product management, and vending operations with change calculation.
 
-This API service was tested manually, Unit tested and using JMeter
+This API service was tested manually, Unit tested and using JMeter.
+Scanned for vulnerabilities (No known issues)
 
 ## Features
 

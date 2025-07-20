@@ -7,5 +7,11 @@ module.exports = {
   reporters: ['default'],
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'html'],
-  testPathIgnorePatterns: ['/node_modules/', '/app/app/']
+  testPathIgnorePatterns: ['/node_modules/'],
+  modulePathIgnorePatterns: ['/app/app/'],
+  roots: ['<rootDir>'],
+  haste: {
+    enableSymlinks: false,
+    throwOnModuleCollision: false
+  }
 };
